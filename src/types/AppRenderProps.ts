@@ -1,8 +1,8 @@
-import { NormalizedCacheObject } from 'apollo-cache-inmemory';
-import ApolloClient from 'apollo-client';
-import { WithApolloState } from 'next-with-apollo/lib/types';
-import { NextRouter } from 'next/router';
-import { AppPageProps } from './AppPageProps';
+import { NormalizedCacheObject } from "apollo-cache-inmemory";
+import ApolloClient from "apollo-client";
+import { WithApolloState } from "next-with-apollo/lib/types";
+import { NextRouter } from "next/router";
+import { AppPageProps } from "./AppPageProps";
 
 /**
  * Props that are returned by the main getInitialProps and then provided to the render function of the application
@@ -21,8 +21,10 @@ export declare type AppRenderProps = {
   //  They're marked as optional because they aren't defined in _app:getInitialProps but will be defined in _app:render
   Component?: Function; // eslint-disable-line @typescript-eslint/no-explicit-any
   router?: NextRouter;
+};
 
+export interface AppRenderLayoutProps extends Omit<AppRenderProps, "Component"> {
   // Injected by HOC "withUniversalGraphQLDataLoader"
   apolloState?: WithApolloState<NormalizedCacheObject>;
   apollo?: ApolloClient<NormalizedCacheObject>;
-};
+}
