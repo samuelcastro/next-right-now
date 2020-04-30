@@ -11,14 +11,17 @@ import React from 'react';
 import { Alert, Container } from 'reactstrap';
 import Head from '../components/Head';
 import { PageProps } from '../types/PageProps';
+import withLayout from '../hoc/withLayout';
 
 const fileLabel = 'pages/index';
-const logger = createLogger({ // eslint-disable-line no-unused-vars,@typescript-eslint/no-unused-vars
+const logger = createLogger({
+  // eslint-disable-line no-unused-vars,@typescript-eslint/no-unused-vars
   label: fileLabel,
 });
 
 const Home: NextPage<PageProps> = (props: PageProps): JSX.Element => {
-  Sentry.addBreadcrumb({ // See https://docs.sentry.io/enriching-error-data/breadcrumbs
+  Sentry.addBreadcrumb({
+    // See https://docs.sentry.io/enriching-error-data/breadcrumbs
     category: fileLabel,
     message: `Rendering index page (${isBrowser() ? 'browser' : 'server'})`,
     level: Sentry.Severity.Debug,
@@ -41,7 +44,8 @@ const Home: NextPage<PageProps> = (props: PageProps): JSX.Element => {
           <Container
             className={'container-white'}
             css={css`
-              h2, h3 {
+              h2,
+              h3 {
                 margin-top: 30px;
               }
             `}
@@ -49,11 +53,13 @@ const Home: NextPage<PageProps> = (props: PageProps): JSX.Element => {
             <h1>Next Right Now Demo</h1>
 
             <div className={'b'} style={{ color: 'black' }}>
-              <Alert
-                color={'warning'}
-              >
-                The purpose of this demo is to showcase what features are built-in within the selected preset.<br />
-                Please note that the documentation is hardcoded in English, so don't expect it to change when switching language.<br />
+              <Alert color={'warning'}>
+                The purpose of this demo is to showcase what features are
+                built-in within the selected preset.
+                <br />
+                Please note that the documentation is hardcoded in English, so
+                don't expect it to change when switching language.
+                <br />
               </Alert>
             </div>
 
@@ -66,9 +72,12 @@ const Home: NextPage<PageProps> = (props: PageProps): JSX.Element => {
                 }
               `}
             >
-              This demo uses the preset <code>{process.env.NRN_PRESET}</code><br />
+              This demo uses the preset <code>{process.env.NRN_PRESET}</code>
+              <br />
               <a
-                href={'https://unlyed.github.io/next-right-now/concepts/presets'}
+                href={
+                  'https://unlyed.github.io/next-right-now/concepts/presets'
+                }
                 target={'_blank'}
                 rel={'noopener'}
                 onClick={() => {
@@ -79,7 +88,9 @@ const Home: NextPage<PageProps> = (props: PageProps): JSX.Element => {
               </a>
               &nbsp;-&nbsp;
               <a
-                href={'https://unlyed.github.io/next-right-now/getting-started/select-preset'}
+                href={
+                  'https://unlyed.github.io/next-right-now/getting-started/select-preset'
+                }
                 target={'_blank'}
                 rel={'noopener'}
                 onClick={() => {
@@ -90,59 +101,102 @@ const Home: NextPage<PageProps> = (props: PageProps): JSX.Element => {
               </a>
             </Alert>
             <div>
-
               <div>
                 <div>
                   <h2>Overview</h2>
-                  You can navigate between <Link href={'/examples'} passHref={true}><a>/examples</a></Link> and <Link href={'/'} passHref={true}><a>/</a></Link> to see CSR in action.<br />
-                  You can also disable JS on your browser to see how SSR works.<br />
+                  You can navigate between{' '}
+                  <Link href={'/examples'} passHref={true}>
+                    <a>/examples</a>
+                  </Link>{' '}
+                  and{' '}
+                  <Link href={'/'} passHref={true}>
+                    <a>/</a>
+                  </Link>{' '}
+                  to see CSR in action.
                   <br />
-                  If you want to know a bit more about what's running this demo beneath the surface, check out our <a href={'/api/status'}><code>/api/status</code> endpoint!</a>
+                  You can also disable JS on your browser to see how SSR works.
+                  <br />
+                  <br />
+                  If you want to know a bit more about what's running this demo
+                  beneath the surface, check out our{' '}
+                  <a href={'/api/status'}>
+                    <code>/api/status</code> endpoint!
+                  </a>
                 </div>
 
                 <div>
                   <h3>Analytics overview</h3>
-                  For the purpose of this demo, we are tracking your analytics usage.
+                  For the purpose of this demo, we are tracking your analytics
+                  usage.
                   <br />
-                  For instance, we know if you've clicked on any link above. That's just basic analytics but it works out-of-the-box.
+                  For instance, we know if you've clicked on any link above.
+                  That's just basic analytics but it works out-of-the-box.
                   <br />
-
                   You can use
                   <a
-                    href={'https://chrome.google.com/webstore/detail/amplitude-instrumentation/acehfjhnmhbmgkedjmjlobpgdicnhkbp'}
+                    href={
+                      'https://chrome.google.com/webstore/detail/amplitude-instrumentation/acehfjhnmhbmgkedjmjlobpgdicnhkbp'
+                    }
                     target={'_blank'}
                     rel={'noopener'}
-                  > Amplitude Instrumentation Explorer extension
-                  </a> to see what analytic events are sent and what they contains exactly, it's very powerful!<br />
+                  >
+                    {' '}
+                    Amplitude Instrumentation Explorer extension
+                  </a>{' '}
+                  to see what analytic events are sent and what they contains
+                  exactly, it's very powerful!
                   <br />
-                  Every time you visit a page, analytics are automatically sent (similar to Google Analytics "pageviews").<br />
+                  <br />
+                  Every time you visit a page, analytics are automatically sent
+                  (similar to Google Analytics "pageviews").
+                  <br />
                 </div>
 
                 <div>
                   <h3>GraphQL API overview</h3>
-                  We fetched our GraphQL endpoint to display proper theming.<br />
-                  The colors that are used in this demo are defined within the GraphCMS "Customer" model.
+                  We fetched our GraphQL endpoint to display proper theming.
+                  <br />
+                  The colors that are used in this demo are defined within the
+                  GraphCMS "Customer" model.
                 </div>
 
                 <div>
                   <h3>Monitoring overview</h3>
-                  Any runtime error is configured to be sent to Sentry, which redirects it into our Slack channel.<br />
-                  This allows us to be notified in real-time about anything that'd go wrong.<br />
+                  Any runtime error is configured to be sent to Sentry, which
+                  redirects it into our Slack channel.
                   <br />
-                  You can test this behaviour by hitting <a href="/api/error"><code>/api/error</code> our error endpoint</a>. Don't worry, alerts have been disabled so you won't bother us for real ;)
+                  This allows us to be notified in real-time about anything
+                  that'd go wrong.
+                  <br />
+                  <br />
+                  You can test this behaviour by hitting{' '}
+                  <a href="/api/error">
+                    <code>/api/error</code> our error endpoint
+                  </a>
+                  . Don't worry, alerts have been disabled so you won't bother
+                  us for real ;)
                 </div>
 
                 <div>
                   <h3>I18n overview</h3>
-                  You can change the language by clicking on the footer flag icon below. <br />
-                  Changing language refresh the whole page, because it was just simpler to do that instead of running the GraphQL query again. <br />
-                  But you could implement it without refreshing the whole page if you wanted.
+                  You can change the language by clicking on the footer flag
+                  icon below. <br />
+                  Changing language refresh the whole page, because it was just
+                  simpler to do that instead of running the GraphQL query again.{' '}
+                  <br />
+                  But you could implement it without refreshing the whole page
+                  if you wanted.
                   <br />
                 </div>
 
                 <div>
                   <h3>Examples</h3>
-                  Check out our <Link href={'/examples'} passHref={true}><a>examples</a></Link> to learn more and see some code snippets!<br />
+                  Check out our{' '}
+                  <Link href={'/examples'} passHref={true}>
+                    <a>examples</a>
+                  </Link>{' '}
+                  to learn more and see some code snippets!
+                  <br />
                 </div>
 
                 <div>
@@ -152,38 +206,71 @@ const Home: NextPage<PageProps> = (props: PageProps): JSX.Element => {
                     href={'https://nrn-admin.now.sh'}
                     target={'_blank'}
                     rel={'noopener'}
-                  >Admin site</a> to edit the data that belong to the customer!<br />
-                  Please do not use NSFW content or anything that is illegal as we don't enforce any rule. Everybody can change pics and text.<br />
+                  >
+                    Admin site
+                  </a>{' '}
+                  to edit the data that belong to the customer!
                   <br />
-                  The admin site is based on <a href={'https://github.com/marmelab/react-admin'} target={'_blank'} rel={'noopener'}>react-admin</a>.<br />
+                  Please do not use NSFW content or anything that is illegal as
+                  we don't enforce any rule. Everybody can change pics and text.
+                  <br />
+                  <br />
+                  The admin site is based on{' '}
+                  <a
+                    href={'https://github.com/marmelab/react-admin'}
+                    target={'_blank'}
+                    rel={'noopener'}
+                  >
+                    react-admin
+                  </a>
+                  .<br />
                   The source code&nbsp;
                   <a
                     href={'https://github.com/UnlyEd/next-right-now-admin'}
                     target={'_blank'}
                     rel={'noopener'}
-                  >is available on GitHub</a> as well. <br />
+                  >
+                    is available on GitHub
+                  </a>{' '}
+                  as well. <br />
                   It also relies on&nbsp;
                   <a
                     href={'https://github.com/UnlyEd/ra-data-graphql-prisma'}
                     target={'_blank'}
                     rel={'noopener'}
-                  >our open source data provider</a> for react-admin, using GraphQL.<br />
+                  >
+                    our open source data provider
+                  </a>{' '}
+                  for react-admin, using GraphQL.
                   <br />
-
-                  All the admin site (AKA back-office) uses GraphQL schema definition to build the views and GQL queries/mutations. (but allow override for flexibility)<br />
-                  It's a POC and could use the help of the community. I've started it to build our Back-office but found a better alternative in the meantime that better answers our needs:&nbsp;
+                  <br />
+                  All the admin site (AKA back-office) uses GraphQL schema
+                  definition to build the views and GQL queries/mutations. (but
+                  allow override for flexibility)
+                  <br />
+                  It's a POC and could use the help of the community. I've
+                  started it to build our Back-office but found a better
+                  alternative in the meantime that better answers our
+                  needs:&nbsp;
                   <a
                     href={'https://directus.io/'}
                     target={'_blank'}
                     rel={'noopener'}
-                  >Directus</a><br />
-                  So, I won't likely bring NRN-Admin to a production-grade level, and it will likely stay in it's current state: a POC.
+                  >
+                    Directus
+                  </a>
+                  <br />
+                  So, I won't likely bring NRN-Admin to a production-grade
+                  level, and it will likely stay in it's current state: a POC.
                 </div>
 
                 <div>
                   <Alert color={'success'}>
-                    Feel free to ask for more examples of what this demo can offer by creating an issue on Github! :)<br />
-                    Feel free to make an improvement to this demo as well, though a PR. (if it's big, please let's discuss it first!)
+                    Feel free to ask for more examples of what this demo can
+                    offer by creating an issue on Github! :)
+                    <br />
+                    Feel free to make an improvement to this demo as well,
+                    though a PR. (if it's big, please let's discuss it first!)
                   </Alert>
                 </div>
               </div>
@@ -193,7 +280,6 @@ const Home: NextPage<PageProps> = (props: PageProps): JSX.Element => {
       )}
     </Amplitude>
   );
-
 };
 
-export default Home;
+export default withLayout(Home as any);

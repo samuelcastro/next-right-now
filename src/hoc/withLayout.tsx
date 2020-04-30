@@ -38,9 +38,10 @@ const logger = createLogger({
   label: fileLabel,
 });
 
-const withLayout = <P extends AppRenderLayoutProps>(
+const withLayout = <P extends any>( // TODO: Add proper type
   Page: NextComponentType<NextPageContext, {}, P>
-): React.ReactNode => { // TODO: add proper next.js type
+): React.ReactNode => {
+  // TODO: add proper next.js type
   class WithLayout extends React.Component<P> {
     /**
      * Initialise the application
@@ -50,9 +51,7 @@ const withLayout = <P extends AppRenderLayoutProps>(
      * @param props
      * @see https://github.com/zeit/next.js/#fetching-data-and-component-lifecycle
      */
-    static async getInitialProps(
-      ctx: NextPageContext
-    ): Promise<AppRenderLayoutProps> {
+    static async getInitialProps(ctx: NextPageContext): Promise<any> { // TODO: Add types
       const { req, res }: NextPageContext = ctx;
       const readonlyCookies: Cookies = NextCookies(ctx); // Parses Next.js cookies in a universal way (server + client)
       const cookiesManager: UniversalCookiesManager = new UniversalCookiesManager(
@@ -113,6 +112,7 @@ const withLayout = <P extends AppRenderLayoutProps>(
           logger.error(error.message);
         },
       });
+
       const bestCountryCodes: string[] = [lang, resolveFallbackLanguage(lang)];
       const gcmsLocales: string = prepareGraphCMSLocaleHeader(bestCountryCodes);
       if (!customerRef) {
@@ -149,11 +149,8 @@ const withLayout = <P extends AppRenderLayoutProps>(
      */
     render(): JSX.Element {
       const {
-        pageProps,
-        apollo,
-        router,
-        err,
-      }: AppRenderLayoutProps = this.props;
+        apollo, router, err, lang, ...pageProps 
+      }: any = this.props;
 
       Sentry.addBreadcrumb({
         // See https://docs.sentry.io/enriching-error-data/breadcrumbs
@@ -304,22 +301,9 @@ const withLayout = <P extends AppRenderLayoutProps>(
         return null;
       }
     }
-
-    componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-      Sentry.withScope((scope) => {
-        Object.keys(errorInfo).forEach((key) => {
-          scope.setExtra(key, errorInfo[key]);
-        });
-
-        Sentry.captureException(error);
-      });
-
-      // This is needed to render errors correctly in development / production
-      super.componentDidCatch(error, errorInfo);
-    }
   }
 
-  return withUniversalGraphQLDataLoader(WithLayout);
+  return WithLayout;
 };
 
 // Wraps all components in the tree with the data provider
